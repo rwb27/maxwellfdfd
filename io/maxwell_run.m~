@@ -203,6 +203,7 @@ function [E_cell, H_cell, obj_array, src_array, extra] = maxwell_run(varargin)
 	% Set solver options.
 	iarg = nargin; arg = varargin{iarg};
 	inspect_only = false;
+    show_modalsrc = true;
 	if istypesizeof(arg, 'logical')
 		inspect_only = arg;
 		iarg = iarg - 1; arg = varargin{iarg};
@@ -216,8 +217,6 @@ function [E_cell, H_cell, obj_array, src_array, extra] = maxwell_run(varargin)
     end
 	
     if ~is_solveropts || ~isfield(solveropts, 'show_modalsrc')
-        solveropts.show_modalsrc = true;
-    end
     
 	if ~is_solveropts || ~isfield(solveropts, 'showstruct')
 		solveropts.showstruct = true;
@@ -312,7 +311,7 @@ function [E_cell, H_cell, obj_array, src_array, extra] = maxwell_run(varargin)
 		
 		% Visualize modes.
 		is_modalsrc = false;
-        if solveropts.show_modalsrc
+        if plot_modalsrc
             for src = src_array
                 if istypesizeof(src, 'ModalSrc')
                     is_modalsrc = true;
@@ -340,7 +339,7 @@ function [E_cell, H_cell, obj_array, src_array, extra] = maxwell_run(varargin)
                     end
                 end
             end
-        end
+		end
 		
 		if is_modalsrc
 			pm.mark('distributed source visualization');
